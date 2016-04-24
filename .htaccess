@@ -1,0 +1,18 @@
+AddDefaultCharset utf-8
+
+RewriteEngine On
+RewriteBase /
+
+# 404 to all requests for unexistent images
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} \.(jpg|jpeg|gif|png)$ [NC]
+RewriteRule ^.*$ 404/ [QSA,L]
+
+# Add a trailing slash to requests
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !(.*)/$
+RewriteRule ^(.*)$ $1/ [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^.*$ index.php?path=%{REQUEST_URI} [QSA,L]
